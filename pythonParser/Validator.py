@@ -4,8 +4,6 @@ import re
 class Validator:
     """An abstract base class for validators."""
 
-    def __init__(self):
-
     def validate(self, value: str) -> bool:
         """Validate a value and return True if it is valid, False otherwise.
 

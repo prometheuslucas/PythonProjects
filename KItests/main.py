@@ -2,6 +2,7 @@ import PySimpleGUI as sg
 import numpy as np
 import math
 
+# TODO: Make a unit test for every function and make it so that the main function can run the unit tests or the output mode with or without a UI
 
 # gaussian function
 def gaussian(mu, var, x):
@@ -119,7 +120,10 @@ def localize(climate, measurements):
 
 
 if __name__ == '__main__':
-    ui = False
+    # I want to have two modes for this code so that main can run the unit test and the other one would show the output or let me give the input through a UI
+    test = False
+    if (test):
+    ui = True
     if (ui):
         # Define the window layout
         layout = [
@@ -155,3 +159,22 @@ if __name__ == '__main__':
         climate_gm = [0.8, 1.1, 4.3, 8.6, 12.6, 15.6, 17.5, 17, 13.7, 9.7, 5.2, 2]
 
         p, trajectory_move = localize(climate_gm, measurements)
+
+# I want to make a unit test for the function localize
+def test_localize():
+    climate = [0.8, 1.1, 4.3, 8.6, 12.6, 15.6, 17.5, 17, 13.7, 9.7, 5.2, 2]
+    measurements = [20, 15, 10, 4]
+
+    p, trajectory_move = localize(climate, measurements)
+
+    assert np.allclose(p, [0.0, 0.0, 0.0, 0.0, 0.0, 0.0001, 0.9999, 0.0, 0.0, 0.0, 0.0, 0.0])
+
+# I want to make a unit test for the function sense
+def test_sense()
+
+
+# I want to make a unit test for the function move
+# I want to make a unit test for the function create_transition_matrix
+# I want to make a unit test for the function create_sensor_matrix
+# I want to make a unit test for the function gaussian
+# I want to make a unit test for the function decimal_to_percent
