@@ -33,7 +33,7 @@ def get_odd_streaks(numbers):
 
 def main():
     start = 1
-    end = 2
+    end = 10
     count = 100
     runs = int(input("Enter the number of times to run the program: "))
     even_tops = []
