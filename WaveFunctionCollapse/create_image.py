@@ -1,8 +1,17 @@
 from PIL import Image, ImageDraw
+import os
 
-def create_image(colors, resolution):
+
+RES = 18
+TILES = "tiles"
+PATH = f"./{TILES}/res_{RES}/"
+
+def create_image(colors, resolution, name):
     if resolution % 3 != 0:
         raise ValueError("Resolution must be a multiple of three.")
+
+    if not os.path.exists(PATH):
+        os.makedirs(PATH)
 
     img = Image.new('RGB', (resolution, resolution))
     draw = ImageDraw.Draw(img)
@@ -23,11 +32,24 @@ def create_image(colors, resolution):
                 color = colors[2][i]
             else:  # right column
                 color = colors[0][i]
-            draw.rectangle([j*square_size, i*square_size, (j+1)*square_size, (i+1)*square_size], color_map[color])
+            draw.rectangle((j*square_size, i*square_size, (j+1)*square_size, (i+1)*square_size), color_map[color])
 
-    img.save('output.png')
+    img.save(f"{PATH}{name}.png")
 
-try:
-    create_image(['BGB', 'BGB', 'BGB', 'BGB'], 300)
-except ValueError as e:
-    print(e)
+
+PATH_METADATA = f"./metadata.txt"
+metadata = []
+with open(PATH_METADATA, "r") as file:
+    file = file.readlines()
+    for line in file:
+        line = line.strip().split("\t")
+        if line[5] == "0":
+            metaEntry = {
+                "ID": line[0],
+                "SOCKETS": [line[1], line[2], line[3], line[4]],
+                "FIXED": False,
+                "ROTATION": 0
+            }
+            create_image(metaEntry["SOCKETS"], RES, metaEntry["ID"])
+        else:
+            print("Fixed tile found, skipping...")
